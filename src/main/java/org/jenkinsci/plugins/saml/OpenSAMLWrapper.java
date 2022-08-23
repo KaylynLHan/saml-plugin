@@ -30,6 +30,10 @@ import org.pac4j.saml.config.SAML2Configuration;
 
 import java.io.IOException;
 import java.util.logging.Logger;
+import java.util.*;
+import org.opensaml.core.xml.schema.XSAny;
+import org.opensaml.core.xml.schema.impl.XSAnyBuilder;
+import java.util.function.*;
 
 import static java.util.logging.Level.*;
 
@@ -147,6 +151,17 @@ public abstract class OpenSAMLWrapper<T> {
 
             if(samlPluginConfig.getNameIdPolicyFormat() != null) {
                 config.setNameIdPolicyFormat(samlPluginConfig.getNameIdPolicyFormat());
+            }
+
+            if (samlPluginConfig.getAcsIndex() != null){
+                List<XSAny> authnExtList = new ArrayList<XSAny>();
+                XSAnyBuilder builder = new XSAnyBuilder();
+                XSAny acsObj = builder.buildObject(null,"AssertionCustomerServiceIndex", null);
+                acsObj.setTextContent("1");
+                
+                authnExtList.add(acsObj);
+                Supplier<List<XSAny>> authnExt = () ->  authnExtList;
+                config.setAuthnRequestExtensions(authnExt);
             }
         }
 
