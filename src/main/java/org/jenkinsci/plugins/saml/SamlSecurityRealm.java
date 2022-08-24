@@ -663,7 +663,7 @@ public class SamlSecurityRealm extends SecurityRealm {
 
         @Override
         public String getDisplayName() {
-            return "SAML 2.0";
+            return "SAML 2.0 (ACS Index fork for requestable Okta SSOs)";
         }
 
         public FormValidation doCheckLogoutUrl(@QueryParameter String logoutUrl) {
