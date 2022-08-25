@@ -95,6 +95,11 @@ under the License.
       <groupId>io.jenkins.plugins</groupId>
       <artifactId>jaxb</artifactId>
     </dependency>
+  <dependency>
+  <groupId>org.kohsuke.stapler</groupId>
+  <artifactId>stapler</artifactId>
+  <version>1.19</version>
+</dependency>
     <dependency>
       <groupId>org.pac4j</groupId>
       <artifactId>pac4j-saml</artifactId>
