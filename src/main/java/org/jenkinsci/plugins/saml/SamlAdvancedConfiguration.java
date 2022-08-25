@@ -38,6 +38,8 @@ public class SamlAdvancedConfiguration extends AbstractDescribableImpl<SamlAdvan
     private final String authnContextClassRef;
     private final String spEntityId;
     private final String nameIdPolicyFormat;
+
+    private final String acsIndex;
     /**
      * @deprecated not used anymore
      */
@@ -49,11 +51,13 @@ public class SamlAdvancedConfiguration extends AbstractDescribableImpl<SamlAdvan
                                      String authnContextClassRef,
                                      String spEntityId,
                                      String nameIdPolicyFormat,
-                                     Integer maximumSessionLifetime) {
+                                     Integer maximumSessionLifetime,
+                                     String acsIndex) {
         this.forceAuthn = (forceAuthn != null) ? forceAuthn : false;
         this.authnContextClassRef = Util.fixEmptyAndTrim(authnContextClassRef);
         this.spEntityId = Util.fixEmptyAndTrim(spEntityId);
         this.nameIdPolicyFormat = Util.fixEmptyAndTrim(nameIdPolicyFormat);
+        this.acsIndex = Util.fixEmptyAndTrim(acsIndex);
     }
 
     public Boolean getForceAuthn() {
@@ -72,6 +76,10 @@ public class SamlAdvancedConfiguration extends AbstractDescribableImpl<SamlAdvan
         return nameIdPolicyFormat;
     }
 
+    public String getAcsIndex(){
+        return acsIndex;
+    }
+
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer("SamlAdvancedConfiguration{");
@@ -79,6 +87,7 @@ public class SamlAdvancedConfiguration extends AbstractDescribableImpl<SamlAdvan
         sb.append(", authnContextClassRef='").append(StringUtils.defaultIfBlank(getAuthnContextClassRef(), "none")).append('\'');
         sb.append(", spEntityId='").append(StringUtils.defaultIfBlank(getSpEntityId(), "none")).append('\'');
         sb.append(", nameIdPolicyFormat='").append(StringUtils.defaultIfBlank(getNameIdPolicyFormat(), "none")).append('\'');
+        sb.append(", acsIndex='").append(StringUtils.defaultIfBlank(getAcsIndex(),"0")).append('\'');
         sb.append('}');
         return sb.toString();
     }
@@ -112,6 +121,28 @@ public class SamlAdvancedConfiguration extends AbstractDescribableImpl<SamlAdvan
             return SamlFormValidation.checkStringFormat(nameIdPolicyFormat);
         }
 
+        public FormValidation doCheckAcsIndex(@org.kohsuke.stapler.QueryParameter String acsIndex) {
+            if (StringUtils.isEmpty(acsIndex)) {
+                return hudson.util.FormValidation.ok();
+            }
+
+            int i = 0;
+            try {
+                i = Integer.parseInt(acsIndex);
+            } catch (NumberFormatException e) {
+                return hudson.util.FormValidation.error(ERROR_NOT_VALID_NUMBER, e);
+            }
+
+            if (i < 0) {
+                return hudson.util.FormValidation.error(ERROR_NOT_VALID_NUMBER);
+            }
+
+            if (i > Integer.MAX_VALUE) {
+                return hudson.util.FormValidation.error(ERROR_NOT_VALID_NUMBER);
+            }
+
+            return hudson.util.FormValidation.ok();
+        }
         public FormValidation doCheckMaximumSessionLifetime(@org.kohsuke.stapler.QueryParameter String maximumSessionLifetime) {
             if (StringUtils.isEmpty(maximumSessionLifetime)) {
                 return hudson.util.FormValidation.ok();
