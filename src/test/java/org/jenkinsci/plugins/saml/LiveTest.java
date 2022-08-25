@@ -78,7 +78,7 @@ public class LiveTest {
         }
         @Override
         public void run(JenkinsRule r) throws Throwable {
-            SamlSecurityRealm realm = configureBasicSettings(new IdpMetadataConfiguration(idpMetadata), new SamlAdvancedConfiguration(false, null, SERVICE_PROVIDER_ID, null, /* TODO maximumSessionLifetime unused */null), SAML2_REDIRECT_BINDING_URI);
+            SamlSecurityRealm realm = configureBasicSettings(new IdpMetadataConfiguration(idpMetadata), new SamlAdvancedConfiguration(false, null, SERVICE_PROVIDER_ID, null, /* TODO maximumSessionLifetime unused */null, null), SAML2_REDIRECT_BINDING_URI);
             r.jenkins.setSecurityRealm(realm);
             configureAuthorization();
             makeLoginWithUser1(r);
@@ -98,7 +98,7 @@ public class LiveTest {
         }
         @Override
         public void run(JenkinsRule r) throws Throwable {
-            SamlSecurityRealm realm = configureBasicSettings(new IdpMetadataConfiguration(idpMetadataUrl, 0L), new SamlAdvancedConfiguration(false, null, SERVICE_PROVIDER_ID, null, null), SAML2_REDIRECT_BINDING_URI);
+            SamlSecurityRealm realm = configureBasicSettings(new IdpMetadataConfiguration(idpMetadataUrl, 0L), new SamlAdvancedConfiguration(false, null, SERVICE_PROVIDER_ID, null, null, null), SAML2_REDIRECT_BINDING_URI);
             Jenkins.XSTREAM2.toXMLUTF8(realm, System.out);
             System.out.println();
             r.jenkins.setSecurityRealm(realm);
@@ -120,7 +120,7 @@ public class LiveTest {
         }
         @Override
         public void run(JenkinsRule r) throws Throwable {
-            SamlSecurityRealm realm = configureBasicSettings(new IdpMetadataConfiguration(idpMetadata), new SamlAdvancedConfiguration(false, null, SERVICE_PROVIDER_ID, null, null), SAML2_POST_BINDING_URI);
+            SamlSecurityRealm realm = configureBasicSettings(new IdpMetadataConfiguration(idpMetadata), new SamlAdvancedConfiguration(false, null, SERVICE_PROVIDER_ID, null, null, null), SAML2_POST_BINDING_URI);
             r.jenkins.setSecurityRealm(realm);
             configureAuthorization();
             makeLoginWithUser1(r);
@@ -140,7 +140,7 @@ public class LiveTest {
         }
         @Override
         public void run(JenkinsRule r) throws Throwable {
-            SamlSecurityRealm realm = configureBasicSettings(new IdpMetadataConfiguration(idpMetadata), new SamlAdvancedConfiguration(false, null, SERVICE_PROVIDER_ID, null, null), SAML2_REDIRECT_BINDING_URI);
+            SamlSecurityRealm realm = configureBasicSettings(new IdpMetadataConfiguration(idpMetadata), new SamlAdvancedConfiguration(false, null, SERVICE_PROVIDER_ID, null, null, null), SAML2_REDIRECT_BINDING_URI);
             r.jenkins.setSecurityRealm(realm);
             configureAuthorization();
             JenkinsRule.WebClient wc = r.createWebClient();
