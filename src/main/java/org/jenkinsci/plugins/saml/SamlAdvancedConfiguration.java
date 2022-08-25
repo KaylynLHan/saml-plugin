@@ -136,7 +136,7 @@ public class SamlAdvancedConfiguration extends AbstractDescribableImpl<SamlAdvan
                 return hudson.util.FormValidation.error(ERROR_NOT_VALID_NUMBER);
             }
 
-            if (i > Integer.MAX_VALUE) {
+            if (Integer.compare(i, Integer.MAX_VALUE) > 0) {
                 return hudson.util.FormValidation.error(ERROR_NOT_VALID_NUMBER);
             }
 
