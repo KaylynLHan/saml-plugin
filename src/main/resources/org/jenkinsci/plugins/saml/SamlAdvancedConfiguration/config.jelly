@@ -13,5 +13,8 @@
     </f:entry>
     <f:entry title="NameIDPolicy Format" field="nameIdPolicyFormat" help="/plugin/saml/help/nameIdPolicyFormat.html">
             <f:textbox/>
-        </f:entry>
+    </f:entry>
+    <f:entry title="Assertion Consumer Service Index" field="acsIndex" help="/plugin/saml/help/assertionConsumerServiceIndex.html">
+            <f:textbox/>
+    </f:entry>
 </j:jelly>

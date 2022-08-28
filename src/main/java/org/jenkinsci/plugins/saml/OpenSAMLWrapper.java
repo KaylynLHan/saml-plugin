@@ -33,6 +33,12 @@ import java.util.logging.Logger;
 
 import static java.util.logging.Level.*;
 
+import java.util.*;
+import org.opensaml.core.xml.schema.XSAny;
+import org.opensaml.core.xml.schema.impl.XSAnyBuilder;
+import java.util.function.*;
+
+
 /**
  * Overall wrapper to all operation using OpenSAML library, this allow to load the Service Loaders properly
  * <p>
@@ -147,6 +153,18 @@ public abstract class OpenSAMLWrapper<T> {
 
             if(samlPluginConfig.getNameIdPolicyFormat() != null) {
                 config.setNameIdPolicyFormat(samlPluginConfig.getNameIdPolicyFormat());
+            }
+
+
+            if (samlPluginConfig.getAcsIndex() != null){
+                List<XSAny> authnExtList = new ArrayList<XSAny>();
+                XSAnyBuilder builder = new XSAnyBuilder();
+                XSAny acsObj = builder.buildObject(null,"AssertionCustomerServiceIndex", null);
+                acsObj.setTextContent(samlPluginConfig.getAcsIndex());
+
+                authnExtList.add(acsObj);
+                Supplier<List<XSAny>> authnExt = () ->  authnExtList;
+                config.setAuthnRequestExtensions(authnExt);
             }
         }
 
