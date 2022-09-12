@@ -97,7 +97,7 @@ public class SamlPluginConfig {
     }
 
     public Boolean getUseAcsUrl() {
-        return getAdvancedConfiguration() != null ? getAdvancedConfiguration().getUseAcsUrl() : null;
+        return getAdvancedConfiguration() != null ? getAdvancedConfiguration().getUseAcsUrl() : Boolean.FALSE;
     }
 //    public String getAcsIndex(){
 //        return getAdvancedConfiguration() != null ? getAdvancedConfiguration().getAcsIndex() : null;

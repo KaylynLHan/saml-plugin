@@ -182,8 +182,6 @@ public abstract class OpenSAMLWrapper<T> {
                     authnExtList.add(acsObj);
                     Supplier<List<XSAny>> authnExt = () ->  authnExtList;
                     config.setAuthnRequestExtensions(authnExt);
-                }else{
-
                 }
             }
         }
