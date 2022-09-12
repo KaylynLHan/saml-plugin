@@ -17,6 +17,7 @@ under the License. */
 
 package org.jenkinsci.plugins.saml;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import jenkins.model.Jenkins;
 import org.apache.commons.lang.StringUtils;
 
@@ -95,9 +96,12 @@ public class SamlPluginConfig {
         return getAdvancedConfiguration() != null ? getAdvancedConfiguration().getNameIdPolicyFormat() : null;
     }
 
-    public String getAcsIndex(){
-        return getAdvancedConfiguration() != null ? getAdvancedConfiguration().getAcsIndex() : null;
+    public Boolean getUseAcsUrl() {
+        return getAdvancedConfiguration() != null ? getAdvancedConfiguration().getUseAcsUrl() : null;
     }
+//    public String getAcsIndex(){
+//        return getAdvancedConfiguration() != null ? getAdvancedConfiguration().getAcsIndex() : null;
+//    }
     public SamlEncryptionData getEncryptionData() {
         return encryptionData;
     }
