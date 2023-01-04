@@ -37,8 +37,16 @@ import java.util.function.*;
 
 import static java.util.logging.Level.*;
 
+import java.util.*;
+import org.opensaml.core.xml.schema.XSAny;
+import org.opensaml.core.xml.schema.impl.XSAnyBuilder;
+import java.util.function.*;
+
+import jenkins.model.Jenkins;
+
 /**
- * Overall wrapper to all operation using OpenSAML library, this allow to load the Service Loaders properly
+ * Overall wrapper to all operation using OpenSAML library, this allow to load
+ * the Service Loaders properly
  * <p>
  * https://wiki.shibboleth.net/confluence/display/OS30/Initialization+and+Configuration
  * http://docs.oracle.com/javase/6/docs/api/java/util/ServiceLoader.html
@@ -55,7 +63,8 @@ public abstract class OpenSAMLWrapper<T> {
     protected StaplerResponse response;
 
     /**
-     * Initialize the OpenSaml services and run the process defined on the abstract method process().
+     * Initialize the OpenSaml services and run the process defined on the abstract
+     * method process().
      *
      * @return process return object
      */
@@ -111,7 +120,7 @@ public abstract class OpenSAMLWrapper<T> {
             config.setWantsAssertionsSigned(false);
         }
 
-        if(encryptionData != null && StringUtils.isNotBlank(encryptionData.getKeystorePath())){
+        if (encryptionData != null && StringUtils.isNotBlank(encryptionData.getKeystorePath())) {
             config.setKeystorePath(encryptionData.getKeystorePath());
             config.setKeystorePassword(encryptionData.getKeystorePasswordPlainText());
             config.setPrivateKeyPassword(encryptionData.getPrivateKeyPasswordPlainText());
@@ -149,19 +158,36 @@ public abstract class OpenSAMLWrapper<T> {
                 config.setComparisonType("exact");
             }
 
-            if(samlPluginConfig.getNameIdPolicyFormat() != null) {
+            if (samlPluginConfig.getNameIdPolicyFormat() != null) {
                 config.setNameIdPolicyFormat(samlPluginConfig.getNameIdPolicyFormat());
             }
 
-            if (samlPluginConfig.getAcsIndex() != null){
-                List<XSAny> authnExtList = new ArrayList<XSAny>();
-                XSAnyBuilder builder = new XSAnyBuilder();
-                XSAny acsObj = builder.buildObject(null,"AssertionCustomerServiceIndex", null);
-                acsObj.setTextContent("1");
-                
-                authnExtList.add(acsObj);
-                Supplier<List<XSAny>> authnExt = () ->  authnExtList;
-                config.setAuthnRequestExtensions(authnExt);
+            // if (samlPluginConfig.getAcsIndex() != null){
+            // List<XSAny> authnExtList = new ArrayList<XSAny>();
+            // XSAnyBuilder builder = new XSAnyBuilder();
+            // XSAny acsObj = builder.buildObject(null,"AssertionCustomerServiceIndex",
+            // null);
+            // acsObj.setTextContent(samlPluginConfig.getAcsIndex());
+            //
+            // authnExtList.add(acsObj);
+            // Supplier<List<XSAny>> authnExt = () -> authnExtList;
+            // config.setAuthnRequestExtensions(authnExt);
+            // }
+
+            if (samlPluginConfig.getUseAcsUrl()) {
+                Jenkins jenkinsInstance = Jenkins.getInstanceOrNull();
+                if (jenkinsInstance != null) {
+                    String acsUrl = jenkinsInstance.getRootUrl();
+                    acsUrl = acsUrl + "securityRealm/finishLogin";
+                    List<XSAny> authnExtList = new ArrayList<XSAny>();
+                    XSAnyBuilder builder = new XSAnyBuilder();
+                    XSAny acsObj = builder.buildObject(null, "AssertionCustomerServiceUrl", null);
+                    acsObj.setTextContent(acsUrl);
+
+                    authnExtList.add(acsObj);
+                    Supplier<List<XSAny>> authnExt = () -> authnExtList;
+                    config.setAuthnRequestExtensions(authnExt);
+                }
             }
         }
 
