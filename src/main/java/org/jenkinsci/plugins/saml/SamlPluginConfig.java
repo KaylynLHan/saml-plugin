@@ -17,7 +17,7 @@ under the License. */
 
 package org.jenkinsci.plugins.saml;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
+//import com.sun.org.apache.xpath.internal.operations.Bool;
 import jenkins.model.Jenkins;
 import org.apache.commons.lang.StringUtils;
 
