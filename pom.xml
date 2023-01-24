@@ -43,7 +43,7 @@ under the License.
 
   <properties>
     <revision>2</revision>
-    <changelist>999999-SNAPSHOT</changelist>
+    <changelist>333.vc81e525974a_c_</changelist>
     <jenkins.version>2.332.1</jenkins.version>
     <java.level>8</java.level>
     <gitHubRepo>jenkinsci/${project.artifactId}-plugin</gitHubRepo>
