@@ -38,6 +38,9 @@ import org.opensaml.core.xml.schema.XSAny;
 import org.opensaml.core.xml.schema.impl.XSAnyBuilder;
 import java.util.function.*;
 
+import jenkins.model.Jenkins;
+
+
 /**
  * Overall wrapper to all operation using OpenSAML library, this allow to load the Service Loaders properly
  * <p>
@@ -154,15 +157,32 @@ public abstract class OpenSAMLWrapper<T> {
                 config.setNameIdPolicyFormat(samlPluginConfig.getNameIdPolicyFormat());
             }
 
-            if (samlPluginConfig.getAcsIndex() != null){
-                List<XSAny> authnExtList = new ArrayList<XSAny>();
-                XSAnyBuilder builder = new XSAnyBuilder();
-                XSAny acsObj = builder.buildObject(null,"AssertionCustomerServiceIndex", null);
-                acsObj.setTextContent("1");
 
-                authnExtList.add(acsObj);
-                Supplier<List<XSAny>> authnExt = () ->  authnExtList;
-                config.setAuthnRequestExtensions(authnExt);
+//            if (samlPluginConfig.getAcsIndex() != null){
+//                List<XSAny> authnExtList = new ArrayList<XSAny>();
+//                XSAnyBuilder builder = new XSAnyBuilder();
+//                XSAny acsObj = builder.buildObject(null,"AssertionCustomerServiceIndex", null);
+//                acsObj.setTextContent(samlPluginConfig.getAcsIndex());
+//
+//                authnExtList.add(acsObj);
+//                Supplier<List<XSAny>> authnExt = () ->  authnExtList;
+//                config.setAuthnRequestExtensions(authnExt);
+//            }
+
+            if (samlPluginConfig.getUseAcsUrl()){
+                Jenkins jenkinsInstance = Jenkins.getInstanceOrNull();
+                if (jenkinsInstance != null){
+                    String acsUrl = jenkinsInstance.getRootUrl();
+                    acsUrl = acsUrl + "securityRealm/finishLogin";
+                    List<XSAny> authnExtList = new ArrayList<XSAny>();
+                    XSAnyBuilder builder = new XSAnyBuilder();
+                    XSAny acsObj = builder.buildObject(null,"AssertionCustomerServiceUrl", null);
+                    acsObj.setTextContent(acsUrl);
+
+                    authnExtList.add(acsObj);
+                    Supplier<List<XSAny>> authnExt = () ->  authnExtList;
+                    config.setAuthnRequestExtensions(authnExt);
+                }
             }
         }
 

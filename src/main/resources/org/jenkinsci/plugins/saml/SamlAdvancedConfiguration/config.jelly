@@ -14,7 +14,7 @@
     <f:entry title="NameIDPolicy Format" field="nameIdPolicyFormat" help="/plugin/saml/help/nameIdPolicyFormat.html">
             <f:textbox/>
     </f:entry>
-    <f:entry title="Assertion Consumer Service Index" field="acsIndex" help="/plugin/saml/help/assertionConsumerServiceIndex.html">
-            <f:textbox/>
+    <f:entry title="Send Assertion Consumer Service URL" field="useAcsUrl" help="/plugin/saml/help/assertionConsumerServiceURL.html">
+            <f:checkbox/>
     </f:entry>
 </j:jelly>
